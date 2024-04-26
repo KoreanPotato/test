@@ -1,32 +1,64 @@
-const fs = require('fs');
-const path = require('path');
+const User = require('../models/userModel'); // Предполагается, что у вас есть модель User
 
-const userDataPath = path.join(__dirname, '../usersData.js');
-
-class userService {
-
-  registerUser(id, username, email, password,) {
-    const userExists = getUserById(id)
-
-    if (userExists) {
-      throw new Error('User with this ID already exists.');
+// Получение всех пользователей
+exports.getAllUsers = async () => {
+    try {
+        return await User.find({});
+    } catch (error) {
+        // Передайте ошибку выше по стеку вызовов
+        throw new Error('Ошибка при получении всех пользователей: ' + error.message);
     }
+};
 
-    const encryptedPassword = Buffer.from(password).toString('base64');
+// Получение одного пользователя по ID
+exports.getUserById = async (id) => {
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            throw new Error('Пользователь не найден');
+        }
+        return user;
+    } catch (error) {
+        throw new Error('Ошибка при получении пользователя: ' + error.message);
+    }
+};
 
-    const newUser = { id, username, email, password: encryptedPassword };
+// Создание нового пользователя
+exports.createUser = async (userData) => {
+    try {
+        const newUser = new User(userData);
+        await newUser.save();
+        return newUser;
+    } catch (error) {
+        throw new Error('Ошибка при создании пользователя: ' + error.message);
+    }
+};
 
-    users.push(newUser);
+// Обновление пользователя по ID
+exports.updateUser = async (id, updateData) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
+        if (!updatedUser) {
+            throw new Error('Пользователь не найден');
+        }
+        return updatedUser;
+    } catch (error) {
+        throw new Error('Ошибка при обновлении пользователя: ' + error.message);
+    }
+};
 
-    fs.writeFileSync(userDataPath, `module.exports = ${JSON.stringify(users, null, 2)};`, 'utf8');
-  }
+// Удаление пользователя по ID
+exports.deleteUser = async (id) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(id);
+        if (!deletedUser) {
+            throw new Error('Пользователь не найден');
+        }
+        return deletedUser;
+    } catch (error) {
+        throw new Error('Ошибка при удалении пользователя: ' + error.message);
+    }
+};
 
-  getUserById(id) {
-    let users = require(userDataPath);
-    const userExists = users.some(user => user.id === id);
-    return userExists
-  }
-}
 
 
-module.exports = new userService()
