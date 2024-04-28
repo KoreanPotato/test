@@ -1,16 +1,14 @@
-const User = require('../models/userModel'); // Предполагается, что у вас есть модель User
+const User = require('../models/userModel');
 
-// Получение всех пользователей
 exports.getAllUsers = async () => {
     try {
         return await User.find({});
     } catch (error) {
-        // Передайте ошибку выше по стеку вызовов
         throw new Error('Ошибка при получении всех пользователей: ' + error.message);
     }
 };
 
-// Получение одного пользователя по ID
+
 exports.getUserById = async (id) => {
     try {
         const user = await User.findById(id);
@@ -23,7 +21,6 @@ exports.getUserById = async (id) => {
     }
 };
 
-// Создание нового пользователя
 exports.createUser = async (userData) => {
     try {
         const newUser = new User(userData);
@@ -34,7 +31,6 @@ exports.createUser = async (userData) => {
     }
 };
 
-// Обновление пользователя по ID
 exports.updateUser = async (id, updateData) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
@@ -47,7 +43,6 @@ exports.updateUser = async (id, updateData) => {
     }
 };
 
-// Удаление пользователя по ID
 exports.deleteUser = async (id) => {
     try {
         const deletedUser = await User.findByIdAndDelete(id);
