@@ -20,17 +20,21 @@ exports.getUserById = async (req, res) => {
     }
 };
 
-// Создание нового пользователя
 exports.createUser = async (req, res) => {
     try {
         const newUser = await userService.createUser(req.body);
         res.status(201).json(newUser);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        if (error.code === 11000) {
+            return res.status(400).json({
+              message: 'Ошибка: Пользователь с таким username или email уже существует.'
+            });
+        }
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Обновление пользователя по ID
+
 exports.updateUser = async (req, res) => {
     try {
         const updatedUser = await userService.updateUser(req.params.id, req.body);
@@ -40,7 +44,6 @@ exports.updateUser = async (req, res) => {
     }
 };
 
-// Удаление пользователя по ID
 exports.deleteUser = async (req, res) => {
     try {
         const deletedUser = await userService.deleteUser(req.params.id);

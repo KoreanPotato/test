@@ -4,11 +4,16 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema ({
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        trim: true
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true
 
     },
     password: {
