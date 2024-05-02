@@ -23,7 +23,8 @@ exports.getAssignmentById = async (req, res) => {
 
 exports.createAssignment = async (req, res) => {
     try {
-        const newAssignment = await assignmentService.createAssignment(req.body);
+        const newAssignment = new Assignment(req.body);
+        await newAssignment.save();
         res.status(201).json(newAssignment);
     } catch (error) {
         res.status(400).json({ message: error.message });

@@ -21,15 +21,6 @@ exports.getAssignmentById = async (id) => {
     }
 };
 
-// exports.createAssignment = async (assignmentData) => {
-//     try {
-//         const newAssignment = new Assignment(assignmentData);
-//         await newAssignment.save();
-//         return newAssignment;
-//     } catch (error) {
-//         throw new Error('Ошибка при создании пользователя: ' + error.message);
-//     }
-// };
 
 exports.updateAssignment = async (id, updateData) => {
     try {
@@ -57,20 +48,19 @@ exports.deleteAssignments = async (id) => {
 
 exports.createAssignment = async (userData, assignmentData) => {
     try {
-      const user = await User.findById(userData._id);
-      if (!user) {
-        throw new Error('Пользователь не найден');
-      }
-  
-      const newAssignment = new Assignment({
-        ...assignmentData,
-        user: userData._id, 
-      });
-  
-      await newAssignment.save();
-  
-      return newAssignment;
+        const user = await User.findById(userData._id);
+        if (!user) {
+            throw new Error('Пользователь не найден');
+        }
+
+        const newAssignment = new Assignment({
+            ...assignmentData,
+            user: userData._id
+        });
+
+        await newAssignment.save();
+        return newAssignment; 
     } catch (error) {
-      throw new Error('Ошибка при создании задания: ' + error.message);
+        throw error; 
     }
-  };
+};

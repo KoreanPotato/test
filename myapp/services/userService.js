@@ -9,17 +9,20 @@ exports.getAllUsers = async () => {
 };
 
 
-exports.getUserById = async (id) => {
+exports.getUserById = async (req, res) => {
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(req.params.id);
         if (!user) {
-            throw new Error('Пользователь не найден');
+            return res.status(404).json({ message: 'Пользователь не найден' });
         }
-        return user;
+        res.json(user);
     } catch (error) {
-        throw new Error('Ошибка при получении пользователя: ' + error.message);
+        res.status(500).json({ message: 'Ошибка при получении пользователя: ' + error.message });
     }
 };
+
+
+
 
 exports.createUser = async (userData) => {
     try {

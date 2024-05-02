@@ -1,0 +1,58 @@
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0 auto;
+    background: #f9f9f9;
+  }
+  
+  .schedule-table {
+    width: 80%;
+    border: 1px solid #ccc;
+    margin: 20px;
+    padding: 10px;
+  }
+  
+  .table-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .table-cell {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .add-button {
+    padding: 5px 10px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .days {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .day-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .day-button.active {
+    background-color: #007BFF;
+    color: white;
+  }
+  
+  

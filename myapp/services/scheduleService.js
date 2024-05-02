@@ -46,22 +46,11 @@ exports.deleteSchedule = async (id) => {
     }
 };
 
-exports.createSchedule = async (userData, scheduleData) => {
+exports.createSchedule = async (req, res) => {
     try {
-      const user = await User.findById(userData._id);
-      if (!user) {
-        throw new Error('user is not found');
-      }
-  
-      const newSchedule = new Schedule({
-        ...scheduleData,
-        user: userData._id, 
-      });
-  
-      await newSchedule.save();
-  
-      return newSchedule;
+        const newSchedule = await scheduleService.createSchedule(req.user._id, req.body);  // Передаем ID пользователя и данные расписания
+        res.status(201).json(newSchedule);
     } catch (error) {
-      throw new Error('Ошибка при создании расписания: ' + error.message);
+        res.status(400).json({ message: error.message });
     }
-  };
+};
