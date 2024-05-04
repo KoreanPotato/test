@@ -1,5 +1,8 @@
 const assignmentService = require('../services/AssignmentService'); 
-const Assignment = require('../models/assignmentModel')
+const { Assignment } = require('../models/assignmentModel');
+const mongoose = require('mongoose');
+
+
 
 exports.getAllAssignments = async (req, res) => {
     try {
@@ -21,15 +24,34 @@ exports.getAssignmentById = async (req, res) => {
 };
 
 
+
+
 exports.createAssignment = async (req, res) => {
     try {
-        const newAssignment = new Assignment(req.body);
-        await newAssignment.save();
-        res.status(201).json(newAssignment);
+      const assignment = new Assignment({
+        title: req.body.title,
+        description: req.body.description,
+        user: req.body.user,
+        dueDate: req.body.dueDate,
+        status: req.body.status,
+        estimatedTime: req.body.estimatedTime
+      });
+  
+      const savedAssignment = await assignment.save();
+      res.status(201).send(savedAssignment);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      console.error('Error creating assignment:', error);
+      if (error.code === 11000) {
+        res.status(400).json({ message: 'A duplicate key error occurred', details: error.message });
+      } else {
+        res.status(500).json({ message: 'Failed to create assignment', details: error.message });
+      }
     }
-};
+  };
+  
+
+
+
 
 
 exports.updateAssignment = async (req, res) => {

@@ -7,8 +7,6 @@ const scheduleRoutes = require('./routes/scheduleRoute')
 const app = express();
 const db = 'mongodb+srv://User:pass123@cluster0.qdnnofl.mongodb.net/'
 
-
-
 mongoose
 .connect(db, {
     useNewUrlParser: true,
@@ -16,7 +14,6 @@ mongoose
 })
 .then((res) => console.log('connected to DB') )
 .catch((error) => console.log(error));
-
 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -29,12 +26,5 @@ app.use('/api', userRoutes);
 app.use('/api', assignmentRoutes); 
 app.use('/api', scheduleRoutes); 
 
-
-
-
-
-
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// сервисы >  контроллеры >  роуты >  app.js

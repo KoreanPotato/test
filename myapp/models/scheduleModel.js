@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { assignmentSchema } = require('../models/assignmentModel');
+const { assignmentSchema } = require('./assignmentModel');
 const scheduleSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     date: {
         type: Date,
         required: true
@@ -17,10 +12,6 @@ const scheduleSchema = new Schema({
         required: true
     },
     assignments: [assignmentSchema], 
-    reminders: {
-        type: String,
-        required: false
-    }
 }, { timestamps: true });
 
 const Schedule = mongoose.model('Schedule', scheduleSchema);

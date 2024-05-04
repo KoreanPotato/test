@@ -2,18 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const assignmentSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     title: {
         type: String,
         required: true
     },
     description: {
-        type: String,
-        required: false
+        type: String
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,18 +15,17 @@ const assignmentSchema = new Schema({
         required: true
     },
     dueDate: {
-        type: Date,
-        required: false
+        type: Date
     },
     status: {
         type: Boolean,
-        required: false
+        default: false
     },
     estimatedTime: {
-        type: Number,
-        required: false
-    },
+        type: Number
+    }
 }, { timestamps: true });
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);
-module.exports = { Assignment, assignmentSchema }; // Если вам нужно использовать и модель, и схему
+
+module.exports = { Assignment, assignmentSchema };

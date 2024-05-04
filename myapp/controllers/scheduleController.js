@@ -45,9 +45,9 @@ exports.deleteSchedule = async (req, res) => {
     try {
         const deletedSchedule = await scheduleService.deleteSchedule(req.params.id);
         if (!deletedSchedule) {
-            res.status(404).json({ message: 'расписание не найден' });
+            res.status(404).json({ message: 'Schedule not found' });
         } else {
-            res.status(204).json({ message: 'расписание удален' });
+            res.status(204).json({ message: 'Schedule deleted' });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
