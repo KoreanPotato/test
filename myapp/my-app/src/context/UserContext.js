@@ -1,21 +1,30 @@
-import React, { createContext, useState } from 'react';
+// src/context/UserContext.js
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
-export const UserContext = createContext(null); // Создание контекста с начальным значением null
+export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (userData) => {
-    setUser(userData); // Логика для установки данных пользователя
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await axios.get('/api/user/me');
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-  const logout = () => {
-    setUser(null); // Логика для очистки данных пользователя
-  };
+    fetchUser();
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={user}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export const useUser = () => useContext(UserContext);

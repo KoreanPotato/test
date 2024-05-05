@@ -1,0 +1,63 @@
+.assignment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  
+  .function-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px; /* Минимальное расстояние для визуальной отделенности */
+  }
+  
+  button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  
+  button:hover {
+    background-color: #367c39;
+  }
+  
+  .modal {
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(223, 223, 223);
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 30%; 
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .modal input, .modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+  }
+  
+  .modal label {
+    font-weight: bold;
+    margin-top: 2000px;
+  }
+  
+  .modal button {
+    margin-top: 20px;
+  }
+  

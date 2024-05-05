@@ -1,0 +1,51 @@
+header {
+    background-color: #333; /* Темно-серый */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  nav {
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+  }
+  
+  nav a {
+    color: white;
+    background-color: #555; 
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+  
+  nav a:hover {
+    background-color: #777; 
+  }
+  
+  body {
+    background-color: #f0f0f0; 
+    color: #333; 
+  }
+  
+  input, textarea {
+    background-color: #fff; 
+    color: #333; 
+    border: 1px solid #ccc; 
+  }
+  
+  button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #555; /* Светлее при наведении */
+  }
+  

@@ -1,39 +1,31 @@
-const User = require('../models/userModel');
+const User = require('../models/userModel')
 
-exports.getAllUsers = async () => {
+
+exports.getUserById = async (userId) => {
     try {
-        return await User.find({});
-    } catch (error) {
-        throw new Error('Error getting all users: ' + error.message);
-    }
-};
-
-
-exports.getUserById = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            throw new Error('User not found');
         }
-        res.json(user);
+        return user;
     } catch (error) {
-        res.status(500).json({ message: 'Error getting user: ' + error.message });
+        throw new Error('Error getting user by _id: ' + error.message);
     }
 };
 
-
-
-
+// Создание нового пользователя
 exports.createUser = async (userData) => {
     try {
         const newUser = new User(userData);
-        await newUser.save();
-        return newUser;
+        await newUser.save(); // Сохраняем нового пользователя в базу данных
+        console.log("New user created:", newUser); // Логируем созданного пользователя
+        return newUser; // Возвращаем созданного пользователя
     } catch (error) {
-        throw new Error('Error creating user: ' + error.message);
+        throw new Error('Error creating user: ' + error.message); // Бросаем исключение, если происходит ошибка
     }
 };
 
+// Обновление пользователя
 exports.updateUser = async (id, updateData) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
@@ -46,6 +38,7 @@ exports.updateUser = async (id, updateData) => {
     }
 };
 
+// Удаление пользователя
 exports.deleteUser = async (id) => {
     try {
         const deletedUser = await User.findByIdAndDelete(id);
@@ -57,6 +50,3 @@ exports.deleteUser = async (id) => {
         throw new Error('Error deleting user: ' + error.message);
     }
 };
-
-
-

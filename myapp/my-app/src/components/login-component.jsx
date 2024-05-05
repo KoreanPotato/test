@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/login.css'; // Предположим, что стили находятся в файле login.css
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -29,30 +30,32 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
-      </form>
+    <div className="login-container">
+      <div className="form-container">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Login</button>
+          {error && <p>{error}</p>}
+        </form>
+      </div>
     </div>
   );
 };

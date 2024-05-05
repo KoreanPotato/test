@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../axios';
+import { useNavigate, Link } from 'react-router-dom'; // Добавлено: Link
 import '../styles/register.css';
-import { useNavigate } from 'react-router-dom'; // Для переадресации
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const Register = () => {
     password: ''
   });
 
-  const navigate = useNavigate(); // Хук для управления историей браузера
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData({
@@ -20,26 +20,17 @@ const Register = () => {
   };
 
   const onSubmit = async (e) => {
-    e.preventDefault(); 
-  
+    e.preventDefault();
     try {
       const response = await axios.post('/users', formData);
       console.log('Пользователь зарегистрирован:', response.data);
-  
-      // Сохранение токена, если он возвращается сервером
+      navigate('/dashboard');
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        navigate('/dashboard');
       }
-  
-      // Сохранение userId, предполагаем что сервер возвращает _id пользователя
-      if (response.data._id) {
-        localStorage.setItem('userId', response.data._id);
-      }
-  
-      // Переадресация на страницу dashboard
-      navigate('/dashboard');
     } catch (error) {
-      console.error('Ошибка при регистрации:', error.response ? error.response.data : error);
+      console.error('registration failed:', error.response ? error.response.data : error);
     }
   };
 
@@ -56,7 +47,6 @@ const Register = () => {
           onChange={onChange}
           required
         />
-
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -66,7 +56,6 @@ const Register = () => {
           onChange={onChange}
           required
         />
-
         <label htmlFor="password">Password:</label>
         <input
           type="password"
@@ -76,9 +65,12 @@ const Register = () => {
           onChange={onChange}
           required
         />
-
         <button type="submit">Register</button>
+        
       </form>
+      <div style={{ marginTop: '20px' }}>
+        <Link to="/login">Already have an account? Log in</Link>
+      </div>
     </div>
   );
 };

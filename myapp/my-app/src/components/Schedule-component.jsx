@@ -1,52 +1,40 @@
-import React, { useState } from 'react';
-import instance from '../axios';
+import React from 'react';
+import '../styles/schedule.css'; // Импорт стилей для расписания
 
-const ScheduleComponent = () => {
-    const [schedule, setSchedule] = useState({ assignments: [] });
+const SchedulePage = () => {
+  // Пример данных для расписания
+  const schedule = {
+    Mon: ['university', 'university', 'Assignment'],
+    Tue: ['university', 'Meeting', 'Assignment'],
+    Wed: ['university', 'Meeting', 'Assignment', 'Meeting', 'deadline!'],
+    Thu: ['university', 'Project', 'university', 'deadline!'],
+    Fri: ['university', 'Project', 'university', 'Meeting', 'Assignment'],
+    Sat: ['university', 'university', 'Meeting', 'Project', 'deadline!'],
+    Sun: ['Meeting', 'Assignment']
+  };
 
-    const handleAddAssignment = () => {
-        setSchedule(prev => ({ ...prev, assignments: [...prev.assignments, { title: '', description: '' }] }));
-    };
-
-    const handleSubmit = async () => {
-        try {
-            const response = await instance.createSchedule(schedule);
-            console.log('Schedule created', response);
-        } catch (error) {
-            console.error('Error creating schedule', error);
-        }
-    };
-
-    return (
-        <div>
-            <h1>Create Your Schedule</h1>
-            {schedule.assignments.map((assignment, index) => (
-                <div key={index}>
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={assignment.title}
-                        onChange={(e) => {
-                            const newAssignments = [...schedule.assignments];
-                            newAssignments[index].title = e.target.value;
-                            setSchedule({ ...schedule, assignments: newAssignments });
-                        }}
-                    />
-                    <textarea
-                        placeholder="Description"
-                        value={assignment.description}
-                        onChange={(e) => {
-                            const newAssignments = [...schedule.assignments];
-                            newAssignments[index].description = e.target.value;
-                            setSchedule({ ...schedule, assignments: newAssignments });
-                        }}
-                    />
-                </div>
+  return (
+    <div className="schedule-container">
+      <h1>Weekly Schedule</h1>
+      <div className="week">
+        {Object.keys(schedule).map(day => (
+          <div key={day} className="day">
+            <h2>{day}</h2>
+            {schedule[day].map((item, index) => (
+              <div key={index} className={`task ${item === 'deadline!' ? 'deadline' : ''}`}>
+                {item}
+              </div>
             ))}
-            <button onClick={handleAddAssignment}>Add Assignment</button>
-            <button onClick={handleSubmit}>Submit Schedule</button>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+      <div className="notes">
+        <h2>Notes</h2>
+        <textarea placeholder="Your notes..."></textarea>
+        <button>Edit</button>
+      </div>
+    </div>
+  );
 };
 
-export default ScheduleComponent;
+export default SchedulePage;

@@ -1,18 +1,43 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../context/UserContext'; // Убедитесь, что вы создали и предоставили этот контекст
+import React, { useEffect, useState } from 'react';
+import axios from '../axios';
 
-const Profile = () => {
-  const user = useContext(UserContext);
+function Profile() {
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState('');
 
-  return (
-    <div>
-      <h1>Профиль пользователя</h1>
-      <p>Имя пользователя: {user.username}</p>
-      <p>Электронная почта: {user.email}</p>
-      <p>Пароль: {user.password}</p> {/* Обычно пароль не отображается в профиле */}
-      <p>ID: {user.id}</p>
-    </div>
-  );
-};
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get('/user/me', {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                setUser(response.data);
+            } catch (err) {
+                setError('Ошибка при загрузке данных пользователя');
+                console.error('Error:', err);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    return (
+        <div>
+            {user ? (
+                <div>
+                    <h1>Профиль пользователя</h1>
+                    <p>Имя: {user.name}</p>
+                    <p>Email: {user.email}</p>
+                </div>
+            ) : (
+                <p>Загрузка...</p>
+            )}
+        </div>
+    );
+}
 
 export default Profile;

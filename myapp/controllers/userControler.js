@@ -10,15 +10,34 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// Получение одного пользователя по ID
-exports.getUserById = async (req, res) => {
+exports.getCurrentUser = async (req, res) => {
     try {
-        const user = await getUserById(req.params.userId);
-        res.json(user);
+        console.log("User ID from token:", req.user._id);
+        const user = await userService.getUserById(req.user._id);
+        res.status(200).json(user);
     } catch (error) {
-        res.status(404).json({ message: 'User not found' });
+        console.error("Error in getting current user:", error);
+        res.status(500).send(error.message);
     }
 };
+
+
+
+exports.getUserById = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await userService.getUserById(userId);
+        res.status(200).json(user);
+    } catch (error) {
+        if (error.message === 'User not found') {
+            res.status(404).send('User not found');
+        } else {
+            console.error('Error getting user:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    }
+};
+
 
 exports.createUser = async (req, res) => {
     try {

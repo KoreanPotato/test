@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './context/UserContext';
 import Dashboard from './components/dashboard-component';
-import Profile from './components/profile.component';
 import Register from './components/registration-components';
-import Login from './components/login-component'
-import './index.css';
+import Login from './components/login-component';
+import CreateAssignment from './components/assignment-component';
+import Header from './components/header';
+import SchedulePage from './components/Schedule-component';
+
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root')); 
@@ -14,12 +17,14 @@ root.render(
   <React.StrictMode>
     <UserProvider>
       <Router>
+        <Header />
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />}/>
-          <Route path="/" element={<h1>ХУЙНЯ не работает</h1>} />
+          <Route path="/assignment" element={<CreateAssignment />}/>
+          <Route path="/schedule" element={<SchedulePage />}/>
+
         </Routes>
       </Router>
     </UserProvider>

@@ -1,100 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
+import React, { useState } from 'react';
+import '../styles/assignment.css'; 
+
 
 const CreateAssignment = () => {
+  const [showDateModal, setShowDateModal] = useState(false);
+  const [showActivityModal, setShowActivityModal] = useState(false);
   const [formData, setFormData] = useState({
+    date: '',
+    time: '',
     title: '',
-    description: '',
-    dueDate: '',
-    status: false,
-    estimatedTime: 0,
-    user: '' 
+    description: ''
   });
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId && userId.length === 24) { 
-      setFormData(currentFormData => ({ ...currentFormData, user: userId }));
-    }
-  }, []);
-
   const handleChange = (e) => {
-    const { name, type, value, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.user || formData.user.length !== 24) {
-      alert('Invalid user ID');
-      return;
-    }
-    try {
-      const response = await axios.post('http://localhost:3001/api/assignment', formData);
-      console.log('Assignment created:', response.data);
-      alert('Assignment successfully created!');
-    } catch (error) {
-      console.error('Error creating assignment:', error.response?.data?.message || error.message);
-      alert('Failed to create assignment.');
-    }
+    console.log('Form Data:', formData);
+    alert('Assignment Submitted!');
   };
-
-  
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create Assignment</h2>
-      <label>
-        Title:
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Description:
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Due Date:
-        <input
-          type="date"
-          name="dueDate"
-          value={formData.dueDate}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Status:
-        <input
-          type="checkbox"
-          name="status"
-          checked={formData.status}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Estimated Time (hours):
-        <input
-          type="number"
-          name="estimatedTime"
-          value={formData.estimatedTime}
-          onChange={handleChange}
-        />
-      </label>
+    <div className="assignment-container">
       
-      <button type="submit">Create Assignment</button>
-    </form>
+      <div className="function-area">
+        <button onClick={() => setShowDateModal(true)}>Add Date</button>
+        <button onClick={() => setShowActivityModal(true)}>Add Title</button>
+        <button onClick={handleSubmit}>Create Assignment</button>
+      </div>
+
+      {showDateModal && (
+        <div className="modal">
+          <label>Date:
+            <input type="date" name="date" value={formData.date} onChange={handleChange} />
+          </label>
+          <label>Time (hours):
+            <input type="number" name="time" value={formData.time} onChange={handleChange} />
+          </label>
+          <button onClick={() => setShowDateModal(false)}>Close</button>
+        </div>
+      )}
+
+      {showActivityModal && (
+        <div className="modal">
+          <label>Title:
+            <input type="text" name="title" value={formData.title} onChange={handleChange} />
+          </label>
+          <label>Description:
+            <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
+          </label>
+          <button onClick={() => setShowActivityModal(false)}>Close</button>
+        </div>
+      )}
+    </div>
   );
 };
 
