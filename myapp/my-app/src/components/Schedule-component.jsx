@@ -1,8 +1,7 @@
 import React from 'react';
-import '../styles/schedule.css'; // Импорт стилей для расписания
+import '../styles/schedule.css';
 
 const SchedulePage = () => {
-  // Пример данных для расписания
   const schedule = {
     Mon: ['university', 'university', 'Assignment'],
     Tue: ['university', 'Meeting', 'Assignment'],

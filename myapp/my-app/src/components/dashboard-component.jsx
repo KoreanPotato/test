@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../context/UserContext'; // Импорт контекста пользователя, если он у вас есть
+import { UserContext } from '../context/UserContext';
 import CreateAssignment from './assignment-component';
 import SchedulePage from './Schedule-component';
 
 const Dashboard = () => {
-  const user = useContext(UserContext); // Использование контекста для доступа к данным пользователя
+  const user = useContext(UserContext);
 
   return (
     <div>
