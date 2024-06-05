@@ -1,57 +1,67 @@
-.schedule-container {
+#schedule {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-left: 20px; /* Отступ слева */
+}
+
+.time-column {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  margin-right: 10px;
 }
 
-.week {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  background-color: #f0f0f0;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.time-slot {
+  height: 60px; /* высота одного часа */
+  line-height: 60px;
+  border-bottom: 1px solid #ccc;
+  text-align: right;
+  padding-right: 10px;
+  color: #888;
 }
 
-.day {
+.day-column {
   flex: 1;
-  margin: 5px;
-  background-color: #ffffff;
-  padding: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  margin: 0 5px;
+  background-color: #f0f0f0;
+  position: relative;
+  height: 1440px; /* высота для 24 часов */
+}
+
+.day-column h3 {
+  background-color: #888;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  margin: 0 0 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .task {
-  margin: 5px 0;
-  padding: 5px;
-  background-color: #e0e0e0;
-  border-left: 5px solid #cccccc;
-}
-
-.deadline {
-  background-color: #ffcccc;
-  border-left: 5px solid #ff0000;
-  color: #990000;
-}
-
-.notes {
-  margin-top: 20px;
-  width: 100%;
+  background-color: #ccc;
   padding: 10px;
-  background-color: #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.notes textarea {
+  margin-bottom: 5px;
+  border-radius: 3px;
+  position: absolute;
   width: 100%;
-  height: 100px;
+  box-sizing: border-box;
 }
 
-.notes button {
-  background-color: #161616;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+.task.deadline {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+.task .task-title {
+  font-weight: bold;
+}
+
+.task .task-details {
+  display: none;
+}
+
+.task:hover .task-details {
+  display: block;
 }

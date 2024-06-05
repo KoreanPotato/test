@@ -9,9 +9,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '100px', paddingLeft: '100px', paddingRight: '100px' }}>
   <section>
-  <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Add assignment</h2>
     <CreateAssignment />
   </section>
   <SchedulePage />

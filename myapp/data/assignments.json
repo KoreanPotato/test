@@ -1,0 +1,42 @@
+{
+  "Wednesday": [
+    {
+      "id": "1717531626020",
+      "title": "сделать задание",
+      "description": "выполнить дохуя всего",
+      "dueDate": "2024-06-05",
+      "startTime": "01:07",
+      "endTime": "05:07"
+    }
+  ],
+  "Thursday": [
+    {
+      "id": "1717592872404",
+      "title": "Home work",
+      "description": "to to a lot of my homeWork",
+      "dueDate": "2024-06-06",
+      "startTime": "09:00",
+      "endTime": "12:15"
+    }
+  ],
+  "Monday": [
+    {
+      "id": "1717594320889",
+      "title": "z",
+      "description": "z",
+      "dueDate": "2024-06-03",
+      "startTime": "18:31",
+      "endTime": "15:36"
+    }
+  ],
+  "Tuesday": [
+    {
+      "id": "1717594364048",
+      "title": "a",
+      "description": "a",
+      "dueDate": "2024-06-04",
+      "startTime": "07:32",
+      "endTime": "09:32"
+    }
+  ]
+}

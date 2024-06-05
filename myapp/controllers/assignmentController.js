@@ -1,78 +1,56 @@
-const assignmentService = require('../services/AssignmentService'); 
-const { Assignment } = require('../models/assignmentModel');
-const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
+const assignmentsFilePath = path.join(__dirname, '../data/assignments.json');
 
-
-exports.getAllAssignments = async (req, res) => {
-    try {
-        const Assignments = await assignmentService.getAllUsers();
-        res.json(Assignments);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+const readAssignmentsFromFile = () => {
+  if (!fs.existsSync(assignmentsFilePath)) {
+    return {};
+  }
+  const data = fs.readFileSync(assignmentsFilePath, 'utf-8');
+  return JSON.parse(data);
 };
 
-
-exports.getAssignmentById = async (req, res) => {
-    try {
-        const Assignment = await assignmentService.getAssignmentById(req.params.id);
-        res.json(Assignment);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+const writeAssignmentsToFile = (assignments) => {
+  fs.writeFileSync(assignmentsFilePath, JSON.stringify(assignments, null, 2), 'utf-8');
 };
 
+exports.getAllAssignments = (req, res) => {
+  const assignments = readAssignmentsFromFile();
+  res.status(200).json(assignments);
+};
 
+exports.createAssignment = (req, res) => {
+  const { title, description, dueDate, startTime, endTime } = req.body;
 
+  console.log('Received data:', req.body); // Логирование для проверки данных
 
-exports.createAssignment = async (req, res) => {
-    try {
-      const assignment = new Assignment({
-        title: req.body.title,
-        description: req.body.description,
-        user: req.body.user,
-        dueDate: req.body.dueDate,
-        status: req.body.status,
-        estimatedTime: req.body.estimatedTime
-      });
-  
-      const savedAssignment = await assignment.save();
-      res.status(201).send(savedAssignment);
-    } catch (error) {
-      console.error('Error creating assignment:', error);
-      if (error.code === 11000) {
-        res.status(400).json({ message: 'A duplicate key error occurred', details: error.message });
-      } else {
-        res.status(500).json({ message: 'Failed to create assignment', details: error.message });
-      }
-    }
+  if (!title || !description || !dueDate || !startTime || !endTime) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  const assignments = readAssignmentsFromFile();
+  const day = new Date(dueDate).getDay(); // 0 - Sunday, 1 - Monday, ..., 6 - Saturday
+
+  const dayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const dayName = dayMapping[day];
+
+  if (!assignments[dayName]) {
+    assignments[dayName] = [];
+  }
+
+  const newAssignment = {
+    id: Date.now().toString(),
+    title,
+    description,
+    dueDate,
+    startTime,
+    endTime,
   };
-  
 
+  console.log('New assignment:', newAssignment); // Логирование для проверки данных
 
-
-
-
-exports.updateAssignment = async (req, res) => {
-    try {
-        const updatedAssignment = await assignmentService.updateAssignment(req.params.id, req.body);
-        res.json(updatedAssignment);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
-
-exports.deleteAssignments = async (req, res) => {
-    try {
-        const deletedAssignment = await assignmentService.deleteAssignments(req.params.id);
-        if (!deletedAssignment) {
-            res.status(404).json({ message: 'Задание не найден' });
-        } else {
-            res.status(204).json({ message: 'Задание удален' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+  assignments[dayName].push(newAssignment);
+  writeAssignmentsToFile(assignments);
+  res.status(201).json(newAssignment);
 };

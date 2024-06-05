@@ -1,61 +1,62 @@
 import React, { useState } from 'react';
-import '../styles/assignment.css'; 
+import '../styles/assignment.css'; // Убедитесь, что стили подключены
 
 
 const CreateAssignment = () => {
-  const [showDateModal, setShowDateModal] = useState(false);
-  const [showActivityModal, setShowActivityModal] = useState(false);
-  const [formData, setFormData] = useState({
-    date: '',
-    time: '',
-    title: '',
-    description: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    alert('Assignment Submitted!');
+    const task = { title, description, dueDate, startTime, endTime };
+    console.log('Submitting task:', task); // Логирование для проверки данных
+    fetch('http://localhost:3001/api/assignments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
+    .then(response => response.json())
+    .then(newTask => {
+      setTitle('');
+      setDescription('');
+      setDueDate('');
+      setStartTime('');
+      setEndTime('');
+      console.log('Task created:', newTask);
+    })
+    .catch(error => console.error('Error saving task:', error));
   };
 
   return (
-    <div className="assignment-container">
-      
-      <div className="function-area">
-        <button onClick={() => setShowDateModal(true)}>Add Date</button>
-        <button onClick={() => setShowActivityModal(true)}>Add Title</button>
-        <button onClick={handleSubmit}>Create Assignment</button>
-      </div>
-
-      {showDateModal && (
-        <div className="modal">
-          <label>Date:
-            <input type="date" name="date" value={formData.date} onChange={handleChange} />
-          </label>
-          <label>Time (hours):
-            <input type="number" name="time" value={formData.time} onChange={handleChange} />
-          </label>
-          <button onClick={() => setShowDateModal(false)}>Close</button>
-        </div>
-      )}
-
-      {showActivityModal && (
-        <div className="modal">
-          <label>Title:
-            <input type="text" name="title" value={formData.title} onChange={handleChange} />
-          </label>
-          <label>Description:
-            <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
-          </label>
-          <button onClick={() => setShowActivityModal(false)}>Close</button>
-        </div>
-      )}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h2>Add assignment</h2>
+      <label>
+        Title:
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+      </label>
+      <label>
+        Description:
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+      </label>
+      <label>
+        Date:
+        <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} required />
+      </label>
+      <label>
+        Start time:
+        <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
+      </label>
+      <label>
+        Finish time:
+        <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
+      </label>
+      <button type="submit">Create Assignment</button>
+    </form>
   );
 };
 

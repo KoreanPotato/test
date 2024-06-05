@@ -18,13 +18,15 @@ root.render(
     <UserProvider>
       <Router>
         <Header />
+        <div id="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px' }}>
+          
+        </div>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />}/>
           <Route path="/assignment" element={<CreateAssignment />}/>
           <Route path="/schedule" element={<SchedulePage />}/>
-
         </Routes>
       </Router>
     </UserProvider>
